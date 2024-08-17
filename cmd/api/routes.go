@@ -14,7 +14,7 @@ func (app *application) routes() *httprouter.Router {
 	endpoints using HandleFunc() method. Note that http.MethodGet and http.MethodPost
 	are constants which equate to the string "GET" and "POST" respectively.*/
 	router.HandlerFunc(http.MethodGet, "/v1/healthcheck", app.healthcheckHandler)
-	router.HandlerFunc(http.MethodPost, "/v1/cars", app.crateCarHandler)
+	router.HandlerFunc(http.MethodPost, "/v1/cars", app.createCarHandler)
 	router.HandlerFunc(http.MethodGet, "/v1/cars/:id", app.showCarHandler)
 
 	// Return the httprouter instance
