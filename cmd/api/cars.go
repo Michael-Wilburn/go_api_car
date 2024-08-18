@@ -41,8 +41,10 @@ func (app *application) showCarHandler(w http.ResponseWriter, r *http.Request) {
 		CreatedAt:  time.Now(),
 	}
 
+	/* Create an envelope {"car":car} instance and pass it to writeJSON(), instead
+	of passing the plain car struct*/
 	// Encode the struct to JSON and send it as the HTTP response.
-	err = app.writeJSON(w, http.StatusOK, car, nil)
+	err = app.writeJSON(w, http.StatusOK, envelope{"car": car}, nil)
 	if err != nil {
 		app.logger.Println(err)
 		http.Error(w, "The server encountered a problem and could not process your request", http.StatusInternalServerError)
