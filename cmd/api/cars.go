@@ -11,7 +11,38 @@ import (
 
 // Add a createCarHandler for the "POST /v1/cars" endpoint.
 func (app *application) createCarHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "create a new car")
+	/*
+		Declare an anonymous struct to hold the information that we expect to be in the
+		HTTP request body (note that the field names and types in the struct are a subset
+		of the Car struct that we created earlier). This struct will be our *target decode destination.
+	*/
+	var input struct {
+		Online     bool    `json:"online"`
+		CarType    string  `json:"car_type"`
+		Brand      string  `json:"brand"`
+		Model      string  `json:"model"`
+		Year       int32   `json:"year"`
+		Kilometers int64   `json:"kilometers"`
+		CarDomain  string  `json:"car_domain"`
+		Price      float64 `json:"price"`
+		InfoPrice  float64 `json:"info_price"`
+		Currency   string  `json:"currency"`
+		ChasisCode string  `json:"chasis_code"`
+		MotorCode  string
+	}
+
+	/*
+		Use the new readJSON() helper to decode the request body into the input struct.
+		If this returns an error we send the client the error message along with a 400
+		Bad Request status code, just like before.
+	*/
+	err := app.readJSON(w, r, &input)
+	if err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+
+	fmt.Fprintf(w, "%+v\n", input)
 }
 
 // Add a showCarHandler for the "GET /v1/cars/:id" endpoint.
